@@ -13,7 +13,7 @@ class StartViewController: UIViewController {
     
     private lazy var backgroundImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "backGroundImage")
+        imageView.image = UIImage(named: Constants.backgroundImage)
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -23,10 +23,8 @@ class StartViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .green
         view.addSubview(backgroundImage)
         setupConstraints()
-        
     }
     
     override func viewDidLayoutSubviews() {

@@ -10,13 +10,6 @@ import UIKit
 class InternshipCollectionView:
     UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    // MARK: - Private Properties
-    
-    private let internshipTypes = [
-        "iOS", "Android", "Design", "Flutter", "QA",
-        "PM", "Go-lang", "FrontEnd", "HR", "Finance"
-    ]
-    
     // MARK: - Initializers
     
     init() {
@@ -32,7 +25,10 @@ class InternshipCollectionView:
         layout.minimumLineSpacing = Constants.minimumLineSpacing
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         self.collectionViewLayout = layout
-        contentInset = UIEdgeInsets(top: 0, left: Constants.leftDistanceToView, bottom: 0, right: Constants.rightDistanceToView)
+        contentInset = UIEdgeInsets(
+            top: 0, left: Constants.leftDistanceToView,
+            bottom: 0, right: Constants.rightDistanceToView
+        )
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
     }
@@ -44,7 +40,7 @@ class InternshipCollectionView:
     // MARK: - CollectionView Methods
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        internshipTypes.count
+        Constants.internshipTypes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -54,7 +50,7 @@ class InternshipCollectionView:
                 for: indexPath
             )
                 as? InternshipCollectionViewCell else { return UICollectionViewCell() }
-        cell.title.text = internshipTypes[indexPath.row]
+        cell.title.text = Constants.internshipTypes[indexPath.row]
         return cell
     }
 }

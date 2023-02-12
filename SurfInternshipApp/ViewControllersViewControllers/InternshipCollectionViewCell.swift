@@ -36,7 +36,6 @@ class InternshipCollectionViewCell: UICollectionViewCell {
             title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
             title.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24)
         ])
-        
     }
     
     required init?(coder: NSCoder) {
