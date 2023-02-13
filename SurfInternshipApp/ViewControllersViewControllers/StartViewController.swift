@@ -33,7 +33,11 @@ class StartViewController: UIViewController {
             let small = UISheetPresentationController.Detent.custom { context in
                 UIScreen.main.bounds.height * 0.41
             }
-            sheet.detents = [small]
+            let medium = UISheetPresentationController.Detent.custom { context in
+                UIScreen.main.bounds.height * 0.63
+            }
+            sheet.detents = [small, medium, .large()]
+            sheet.largestUndimmedDetentIdentifier = .large
             sheet.preferredCornerRadius = 32
             sheet.prefersScrollingExpandsWhenScrolledToEdge = false
             sheet.prefersGrabberVisible = true

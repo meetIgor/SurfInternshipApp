@@ -18,9 +18,4 @@ struct Constants {
     static let questionText = "Хочешь к нам?"
     static let buttonTitle = "Отправить заявку"
     static let backgroundImage = "backGroundImage"
-    
-    static let internshipTypes = [
-        "iOS", "Android", "Design", "Flutter", "QA",
-        "PM", "Go-lang", "FrontEnd", "HR", "Finance"
-    ]
 }

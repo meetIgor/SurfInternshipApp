@@ -10,6 +10,15 @@ import UIKit
 class InternshipCollectionView:
     UICollectionView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    // MARK: - Private Properties
+    
+    private var pressState = false
+    
+    private var internshipTypes = [
+        "iOS", "Android", "Design", "Flutter", "QA",
+        "PM", "Go-lang", "FrontEnd", "HR", "Finance"
+    ]
+    
     // MARK: - Initializers
     
     init() {
@@ -37,10 +46,11 @@ class InternshipCollectionView:
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     // MARK: - CollectionView Methods
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        Constants.internshipTypes.count
+        internshipTypes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -50,7 +60,19 @@ class InternshipCollectionView:
                 for: indexPath
             )
                 as? InternshipCollectionViewCell else { return UICollectionViewCell() }
-        cell.title.text = Constants.internshipTypes[indexPath.row]
+        cell.title.text = internshipTypes[indexPath.row]
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if !pressState || indexPath.row != 0 {
+            moveItem(at: indexPath, to: IndexPath(row: 0, section: 0))
+            let itemToMove = internshipTypes.remove(at: indexPath.row)
+            internshipTypes.insert(itemToMove, at: 0)
+            pressState = true
+        } else {
+            deselectItem(at: indexPath, animated: true)
+            pressState = false
+        }
     }
 }
