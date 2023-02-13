@@ -12,7 +12,9 @@ class InternshipCollectionView:
     
     // MARK: - Private Properties
     
-    private let internshipTypes = [
+    private var pressState = false
+    
+    private var internshipTypes = [
         "iOS", "Android", "Design", "Flutter", "QA",
         "PM", "Go-lang", "FrontEnd", "HR", "Finance"
     ]
@@ -32,7 +34,10 @@ class InternshipCollectionView:
         layout.minimumLineSpacing = Constants.minimumLineSpacing
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         self.collectionViewLayout = layout
-        contentInset = UIEdgeInsets(top: 0, left: Constants.leftDistanceToView, bottom: 0, right: Constants.rightDistanceToView)
+        contentInset = UIEdgeInsets(
+            top: 0, left: Constants.leftDistanceToView,
+            bottom: 0, right: Constants.rightDistanceToView
+        )
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
     }
@@ -40,6 +45,7 @@ class InternshipCollectionView:
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     // MARK: - CollectionView Methods
     
@@ -56,5 +62,17 @@ class InternshipCollectionView:
                 as? InternshipCollectionViewCell else { return UICollectionViewCell() }
         cell.title.text = internshipTypes[indexPath.row]
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if !pressState || indexPath.row != 0 {
+            moveItem(at: indexPath, to: IndexPath(row: 0, section: 0))
+            let itemToMove = internshipTypes.remove(at: indexPath.row)
+            internshipTypes.insert(itemToMove, at: 0)
+            pressState = true
+        } else {
+            deselectItem(at: indexPath, animated: true)
+            pressState = false
+        }
     }
 }

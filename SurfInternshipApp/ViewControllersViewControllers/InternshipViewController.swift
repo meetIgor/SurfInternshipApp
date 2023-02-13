@@ -13,36 +13,24 @@ class InternshipViewController: UIViewController {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Стажировка в Surf"
+        label.text = Constants.title
         label.font = UIFont.boldSystemFont(ofSize: 24)
         return label
     }()
     
     private lazy var header: UILabel = {
-        createHeaderLabel(with: "Работай над реальными задачами под руководством опытного наставника и получи вохможность стать частью команды мечты.", linesAmount: 0)
+        createLabel(with: Constants.headerText, linesAmount: 0)
     }()
     
     private lazy var question: UILabel = {
-        createHeaderLabel(with: "Хочешь к нам?", linesAmount: 1)
+        createLabel(with: Constants.questionText, linesAmount: 1)
     }()
     
     private lazy var sendButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.titleLabel?.numberOfLines = 1
-        button.configuration = UIButton.Configuration.filled()
-        button.configuration?.baseBackgroundColor = #colorLiteral(red: 0.1921568627, green: 0.1921568627, blue: 0.1921568627, alpha: 1)
-        var attrText = AttributedString.init("Отправить заявку")
-        attrText.font = UIFont.systemFont(ofSize: 16)
-        attrText.foregroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        button.configuration?.attributedTitle = attrText
-        button.configuration?.cornerStyle = .capsule
-        button.configuration?.contentInsets = NSDirectionalEdgeInsets(
-            top: 20, leading: 44, bottom: 20, trailing: 44
+        createSendButton(with: Constants.buttonTitle, action: UIAction { [unowned self] _ in
+            sendButtonPressed()
+        }
         )
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        button.addTarget(self, action: #selector(self.sendButtonPressed), for: .touchUpInside)
-        return button
     }()
     
     private lazy var stackView: UIStackView = {
@@ -61,24 +49,18 @@ class InternshipViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        view.addSubview(titleLabel)
-        view.addSubview(header)
-        view.addSubview(intershipCollectionView)
-        view.addSubview(stackView)
-        setConstraints()
-    }
-    
-    // MARK: - Public Methods
-    
-    @objc func sendButtonPressed() {
-        showAlert(
-            with: "Поздравляем!",
-            and: "Ваша заявка успешно отправлена!")
+        setupSubviews(titleLabel, header, intershipCollectionView, stackView)
+        setupConstraints()
     }
     
     // MARK: - Private Methods
+    private func setupSubviews(_ subviews: UIView...) {
+        subviews.forEach { subview in
+            view.addSubview(subview)
+        }
+    }
     
-    private func setConstraints() {
+    private func setupConstraints() {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 24),
@@ -103,21 +85,44 @@ class InternshipViewController: UIViewController {
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            stackView.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20
+            ),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
     
-    private func createHeaderLabel(with text: String, linesAmount: Int ) -> UILabel {
+    private func createLabel(with text: String, linesAmount: Int ) -> UILabel {
         let label = UILabel()
         label.text = text
         label.numberOfLines = linesAmount
         label.contentMode = .center
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = #colorLiteral(red: 0.5882352941, green: 0.5843137255, blue: 0.6078431373, alpha: 1)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }
+    
+    private func createSendButton(with title: String, action: UIAction) -> UIButton {
+        var attributes = AttributeContainer()
+        attributes.font = UIFont.systemFont(ofSize: 16)
+        attributes.foregroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        
+        var buttonConfiguration = UIButton.Configuration.filled()
+        buttonConfiguration.attributedTitle = AttributedString(title, attributes: attributes)
+        buttonConfiguration.cornerStyle = .capsule
+        buttonConfiguration.baseBackgroundColor = #colorLiteral(red: 0.1921568627, green: 0.1921568627, blue: 0.1921568627, alpha: 1)
+        buttonConfiguration.contentInsets = NSDirectionalEdgeInsets(
+            top: 20, leading: 44, bottom: 20, trailing: 44
+        )
+        
+        return UIButton(configuration: buttonConfiguration, primaryAction: action)
+    }
+    
+    private func sendButtonPressed() {
+        showAlert(
+            with: "Поздравляем!",
+            and: "Ваша заявка успешно отправлена!")
     }
 }
 

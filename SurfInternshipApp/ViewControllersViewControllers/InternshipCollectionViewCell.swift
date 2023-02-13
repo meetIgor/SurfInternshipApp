@@ -18,10 +18,25 @@ class InternshipCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 1
         label.textAlignment = .center
+        label.textColor = #colorLiteral(red: 0.1921568627, green: 0.1921568627, blue: 0.1921568627, alpha: 1)
         label.sizeToFit()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    // MARK: - Override
+    
+    override var isSelected: Bool {
+        willSet {
+            if newValue {
+                self.backgroundColor = #colorLiteral(red: 0.1921568627, green: 0.1921568627, blue: 0.1921568627, alpha: 1)
+                self.title.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            } else {
+                self.title.textColor = #colorLiteral(red: 0.1921568627, green: 0.1921568627, blue: 0.1921568627, alpha: 1)
+                self.backgroundColor = #colorLiteral(red: 0.9529411765, green: 0.9529411765, blue: 0.9607843137, alpha: 1)
+            }
+        }
+    }
     
     // MARK: - Initializers
     
@@ -36,7 +51,6 @@ class InternshipCollectionViewCell: UICollectionViewCell {
             title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 24),
             title.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -24)
         ])
-        
     }
     
     required init?(coder: NSCoder) {
